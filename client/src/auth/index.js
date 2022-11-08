@@ -102,6 +102,7 @@ function AuthContextProvider(props) {
                     }
                 })
                 auth.loginUser(email, password);
+                history.push("/");
             }
         }
         catch (error) {
