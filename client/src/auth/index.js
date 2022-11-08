@@ -12,7 +12,8 @@ export const AuthActionType = {
     LOGOUT_USER: "LOGOUT_USER",
     REGISTER_USER: "REGISTER_USER",
     LOGIN_ERROR: "LOGIN_ERROR",
-    REGISTER_ERROR: "REGISTER_ERROR"
+    REGISTER_ERROR: "REGISTER_ERROR",
+    CLOSE_MODAL: "CLOSE_MODAL",
 
 }
 
@@ -48,7 +49,7 @@ function AuthContextProvider(props) {
             case AuthActionType.LOGOUT_USER: {
                 return setAuth({
                     user: null,
-                    loggedIn: false,
+                    loggedIn: payload.loggedIn,
                     error: null
                 })
             }
@@ -71,6 +72,13 @@ function AuthContextProvider(props) {
                     user: payload.user,
                     loggedIn: false,
                     error: payload.error
+                })
+            }
+            case AuthActionType.CLOSE_MODAL: {
+                return setAuth({
+                    user: payload.user,
+                    loggedIn: payload.user,
+                    error: null
                 })
             }
             default:
@@ -149,7 +157,9 @@ function AuthContextProvider(props) {
         if (response.status === 200) {
             authReducer( {
                 type: AuthActionType.LOGOUT_USER,
-                payload: null
+                payload: {
+                    loggedIn: false
+                }
             })
             history.push("/");
         }
@@ -167,7 +177,7 @@ function AuthContextProvider(props) {
 
     auth.closeErrorModal = function() {
         authReducer({
-            type: AuthActionType.REGISTER_ERROR,
+            type: AuthActionType.CLOSE_MODAL,
             payload: {
                 errorMessage: null
             }
