@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import AuthContext from '../auth';
+import GlobalStoreContext from '../store';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -18,6 +19,7 @@ const style = {
 };
 
 export default function MUIErrorModal() {
+    const { store } = useContext(GlobalStoreContext);
     const { auth } = useContext(AuthContext);
     let error = "";
     if (auth.error) {
@@ -26,6 +28,8 @@ export default function MUIErrorModal() {
 
     function handleCloseModal(event) {
         auth.closeErrorModal();
+        store.hideModals();
+       
     }
 
     return (
